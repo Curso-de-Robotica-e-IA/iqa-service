@@ -19,7 +19,7 @@ class DIQA:
     def __init__(self):
         load_dotenv(find_dotenv('.env'))
         model_filename = "modelo_DIQA75b64.pth"
-        model_filedir = os.getcwd() + r"\IQA\DIQA\model\weights"
+        model_filedir = os.getcwd() + r"\src\IQA\DIQA\model\weights"
         self.__model_filepath = f"{model_filedir}\{model_filename}"
 
         if model_filename not in os.listdir(model_filedir):
