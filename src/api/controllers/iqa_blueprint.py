@@ -3,6 +3,7 @@ Image Quality Assessment (IQA) API.
 """
 
 from flask import Blueprint, request, Response, jsonify
+from werkzeug.exceptions import UnsupportedMediaType
 from http import HTTPStatus
 from api.services.iqa_service import IQAService
 
@@ -31,6 +32,24 @@ def evaluate() -> Response:
         res = jsonify(iqa_result)
         res.status_code = HTTPStatus.OK
         return res
+    except UnsupportedMediaType as e:
+        res = jsonify({
+            'message': 'Unsupported media type',
+            'details': str(e),
+        })
+        res.status_code = HTTPStatus.UNSUPPORTED_MEDIA_TYPE
+        return res
+    except TypeError as e:
+        res = jsonify({
+            'message': 'Invalid request body',
+            'details': str(e),
+        })
+        res.status_code = HTTPStatus.BAD_REQUEST
+        return res
     except Exception as e:
-        print(e)
-        return Response(status=HTTPStatus.INTERNAL_SERVER_ERROR)
+        res = jsonify({
+            'message': 'Internal server error',
+            'details': str(e),
+        })
+        res.status_code = HTTPStatus.INTERNAL_SERVER_ERROR
+        return res
