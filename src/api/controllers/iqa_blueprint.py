@@ -53,3 +53,18 @@ def evaluate() -> Response:
         })
         res.status_code = HTTPStatus.INTERNAL_SERVER_ERROR
         return res
+
+
+@iqa_controller.route('/version', methods=['GET'])
+def version() -> Response:
+    """Returns the version of the IQA API.
+
+    Returns:
+        Response: The response containing the version of the IQA API.
+    """
+    iqa_service = IQAService()
+    res = jsonify({
+        'version': iqa_service.version,
+    })
+    res.status_code = HTTPStatus.OK
+    return res
