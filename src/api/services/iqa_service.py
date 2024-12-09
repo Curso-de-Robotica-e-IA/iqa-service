@@ -23,11 +23,27 @@ class IQAService:
     """Represents the service for the Image Quality Assessment (IQA) API.
     """
 
+    _instance = None
+
+    def __new__(cls):
+        if IQAService._instance is None:
+            IQAService._instance = super(IQAService, cls).__new__(cls)
+        return IQAService._instance
+
     def __init__(self):
         """Initializes the IQA service. The model used for the IQA evaluation
         is chosen at the IQA class, from the `.env` file values.
         """
         self.__iqa = IQA()
+
+    @property
+    def version(self) -> int:
+        """Returns the version of the IQA API.
+
+        Returns:
+            int: The version of the IQA API.
+        """
+        return self.__iqa.version_info()
 
     @staticmethod
     def _img_from_base64(base64_str: str) -> bytes:
