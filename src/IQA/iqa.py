@@ -1,5 +1,7 @@
+import os
 from IQA.DIQA.diqa import DIQA
-
+from IQA.ARNIQA.arniqa import ARNIQA
+from dotenv import load_dotenv, find_dotenv
 
 class IQA:
     """Represents the Image Quality Assessment (IQA) API.
@@ -7,9 +9,13 @@ class IQA:
     def __init__(self):
         """Initializes the IQA API.
         """
-        # TODO: choose a model for the IQA API using the `.env` file
+        load_dotenv(find_dotenv('.env'))
+        iqa_model = os.getenv('MODEL')
         self.__version = 1
-        self.__api = DIQA()
+        if iqa_model == 'DIQA':
+            self.__api = DIQA()
+        if iqa_model == 'ARNIQA':
+            self.__api = ARNIQA()
 
     def version_info(self) -> int:
         """Returns the version of the IQA API.
